@@ -1,7 +1,9 @@
 ﻿using EduHome.Data;
 using EduHome.Models;
+using EduHome.Models.TeacherRel;
 using EduHome.Services.Interfaces;
 using EduHome.Utilities.Pagination;
+using EduHome.Utilities.Helpers;
 using EduHome.ViewModels.TeacherVMs;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -35,17 +37,20 @@ namespace EduHome.Controllers
             ViewData["TakeTeacher"] = takeTeacher;
             var teachers = await _teacherService.GetTeachers(takeTeacher, after);
             var teachersVM = GetMapDatas(teachers);
-            int totalPage = GetPageCount(teacherCount, takeTeacher);
+            int totalPage = Helper.GetPageCount(teacherCount, takeTeacher);
             Paginate<TeacherListVM> paginatedTeacher = new Paginate<TeacherListVM>(teachersVM, page, totalPage);
             return View(paginatedTeacher);
         }
-        public async Task<IActionResult> Index(int Id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (Id == 0) return NotFound();
-            var teacherCount = await _context.Teachers.AsNoTracking().CountAsync() + 1;
-            if (teacherCount == 0) return NotFound();
-            var teacher = await _context.Teachers
-                .Where(t => t.Id == Id)
+            if (id == 0) return NotFound();
+            List<TeacherSkill> teacherSkills = await _context.TeacherSkills
+                .Where(ts => ts.TeacherId == id)
+                .Include(ts => ts.Teacher)
+                .Include(ts => ts.Skill)
+                .ToListAsync();
+            Teacher teacher = await _context.Teachers
+                .Where(t => t.Id == id)
                 .Include(t => t.TeacherDetails)
                 .Include(t => t.TeacherContactInfo)
                 .Include(t => t.TeacherSocialMedia)
@@ -54,14 +59,12 @@ namespace EduHome.Controllers
                 .Include(t => t.Position)
                 .FirstOrDefaultAsync();
             if (teacher == null) return NotFound();
-
-            return View(teacher);
-        }
-
-        private int GetPageCount(int teacherCount, int takeTeacher)
-        {
-            var pageCount = (int)Math.Ceiling((decimal)teacherCount / takeTeacher);
-            return pageCount;
+            TeacherDetailsVM teacherDetailsVM = new TeacherDetailsVM()
+            {
+                Teacher = teacher,
+                TeacherSkills = teacherSkills
+            };
+            return View(teacherDetailsVM);
         }
 
         private List<TeacherListVM> GetMapDatas(List<Teacher> teachers)
@@ -88,7 +91,6 @@ namespace EduHome.Controllers
                     Instagram = teacher.TeacherSocialMedia.Instagram,
                     Twitter = teacher.TeacherSocialMedia.Twitter
                 };
-
                 mapDatas.Add(mapData);
             }
             return mapDatas;

@@ -52,16 +52,14 @@
                                         <a asp-controller="Events" asp-action="Index">event</a>
                                         <ul>
                                             <li><a asp-controller="Events" asp-action="Index">event</a></li>
-                                            <li><a asp-controller="Events" asp-action="EventsSideBar">events sidebar</a></li>
-                                            <li><a href="event-details.html">event details</a></li>
+                                            <li><a asp-controller="Events" asp-action="IndexWithSidebar">events sidebar</a></li>
                                         </ul>
                                     </li>
                                     <li class="hidden-sm">
                                         <a asp-controller="Teachers" asp-action="Index">teachers</a>
-                                        <ul>
+                                        @*<ul>
                                             <li><a asp-controller="Teachers" asp-action="Index">teachers</a></li>
-                                            <li><a href="teacher-details.html">teacher details</a></li>
-                                        </ul>
+                                        </ul>*@
                                     </li>
                                     <li>
                                         <a asp-controller="Blogs" asp-action="Index">blogs</a>
