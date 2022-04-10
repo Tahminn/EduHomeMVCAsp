@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EduHome.Models
+namespace EduHome.Models.APrimary
 {
     public class BaseEntity
     {

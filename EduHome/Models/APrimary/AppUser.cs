@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace EduHome.Models
+namespace EduHome.Models.APrimary
 {
     public class AppUser : IdentityUser
     {

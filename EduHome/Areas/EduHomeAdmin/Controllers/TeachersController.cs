@@ -28,14 +28,13 @@ namespace EduHome.Areas.EduHomeAdmin.Controllers
             _teacherService = teacherService;
         }
 
-        public async Task<IActionResult> Index(int after, int takeTeacher, int page = 1)
+        public async Task<IActionResult> Index(int after, int take, int page = 1)
         {
-            var teachers = await _teacherService.GetTeachers(takeTeacher, after);
-            var teachersVM = GetMapDatas(teachers);
-            int pageCount = GetPageCount(teachers, takeTeacher);
-            ViewData["TeacherCount"] = await _context.Teachers.AsNoTracking().CountAsync() + 1;
-            ViewData["Size"] = takeTeacher;
-            Paginate<TeacherListVM> paginatedTeacher = new Paginate<TeacherListVM>(teachersVM, page, pageCount);
+            var count = await _context.Teachers.AsNoTracking().CountAsync() + 1;
+            if (after == 0) after = count;
+            ViewData["TeacherCount"] = count;
+            ViewData["TakeTeacher"] = take;
+            var paginatedTeacher = await _teacherService.GetTeachers(take, after, count, page);
             return View(paginatedTeacher);
         }
 

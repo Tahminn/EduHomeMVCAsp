@@ -1,4 +1,6 @@
-﻿namespace EduHome.Models.TeacherRel
+﻿using EduHome.Models.APrimary;
+
+namespace EduHome.Models.TeacherRel
 {
     public class TeacherContactInfo : BaseEntity
     {

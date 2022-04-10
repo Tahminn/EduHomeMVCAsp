@@ -1,4 +1,5 @@
-﻿using EduHome.Models.TeacherRel;
+﻿using EduHome.Models.APrimary;
+using EduHome.Models.TeacherRel;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

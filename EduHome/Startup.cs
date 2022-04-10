@@ -34,6 +34,8 @@ namespace EduHome
                     .GetConnectionString("EduHomeConnection"));
             });
             services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IEventService, EventService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

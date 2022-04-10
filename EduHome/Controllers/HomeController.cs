@@ -1,4 +1,5 @@
 ﻿using EduHome.Models;
+using EduHome.Models.APrimary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

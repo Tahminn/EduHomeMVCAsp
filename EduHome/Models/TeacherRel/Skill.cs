@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EduHome.Models.APrimary;
+using System.Collections.Generic;
 
 namespace EduHome.Models.TeacherRel
 {

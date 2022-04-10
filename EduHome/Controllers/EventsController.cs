@@ -17,63 +17,41 @@ namespace EduHome.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IWebHostEnvironment _env;
+        private readonly IEventService _eventService;
         public EventsController(AppDbContext context,
-                                  IWebHostEnvironment env)
+                                IWebHostEnvironment env,
+                                IEventService eventService)
         {
             _context = context;
             _env = env;
+            _eventService = eventService;  
         }
         public async Task<IActionResult> Index(int after, int take = 3, int page = 1)
         {
-            var eventCount = await _context.Events.AsNoTracking().CountAsync() + 1;
-            if (after == 0) after = eventCount;
-            ViewData["EventCount"] = eventCount;
+            var count = await _context.Events.AsNoTracking().CountAsync() + 1;
+            if (after == 0) after = count;
+            ViewData["EventCount"] = count;
             ViewData["Take"] = take;
-            List<Event> events = await _context.Events
-                    .Where(e => e.Id < after && !e.IsDeleted)
-                    .Take(take)
-                    .OrderByDescending(t => t.Id)
-                    .ToListAsync();
-            int totalPage = Helper.GetPageCount(eventCount, take);
-            Paginate<Event> paginatedEvent = new Paginate<Event>(events, page, totalPage);
+            var paginatedEvent = await _eventService.GetEvents(take, after, count, page);
             return View(paginatedEvent);
         }
 
         public async Task<IActionResult> IndexWithSidebar(int after, int take = 3, int page = 1)
         {
-            var eventCount = await _context.Events.AsNoTracking().CountAsync() + 1;
-            if (after == 0) after = eventCount;
-            ViewData["EventCount"] = eventCount;
+            var count = await _context.Events.AsNoTracking().CountAsync() + 1;
+            if (after == 0) after = count;
+            ViewData["EventCount"] = count;
             ViewData["Take"] = take;
-            List<Event> events = await _context.Events
-                    .Where(e => e.Id < after && !e.IsDeleted)
-                    .Take(take)
-                    .OrderByDescending(t => t.Id)
-                    .ToListAsync();
-            int totalPage = Helper.GetPageCount(eventCount, take);
-            Paginate<Event> paginatedEvent = new Paginate<Event>(events, page, totalPage);
+            var paginatedEvent = await _eventService.GetEvents(take, after, count, page);
             return View(paginatedEvent);
         }
 
         public async Task<IActionResult> Details(int id)
         {
             if (id == 0) return NotFound();
-            List<EventSpeaker> eventSpeakers = await _context.EventSpeakers
-                .Where(es => es.EventId == id)
-                .Include(ts => ts.Event)
-                .Include(ts => ts.Speaker)
-                .ToListAsync();
-            Event eventt = await _context.Events
-                .Where(t => t.Id == id)
-                .Include(t => t.EventSpeakers)
-                .FirstOrDefaultAsync();
-            if (eventt == null) return NotFound();
-            EventVM eventVM = new EventVM()
-            {
-                Event = eventt,
-                EventSpeakers = eventSpeakers
-            };
-            return View(eventVM);
+            var eventSpeakers = await _eventService.GetEventById(id);
+            if(eventSpeakers is null) return NotFound();
+            return View(eventSpeakers);
         }
     }
 }

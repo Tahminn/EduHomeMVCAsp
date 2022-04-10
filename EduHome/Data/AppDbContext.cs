@@ -1,4 +1,6 @@
 ﻿using EduHome.Models;
+using EduHome.Models.APrimary;
+using EduHome.Models.CourseRel;
 using EduHome.Models.EventRel;
 using EduHome.Models.TeacherRel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -22,10 +24,19 @@ namespace EduHome.Data
         public DbSet<Position> Positions { get; set; }
         public DbSet<Skill> Skills { get; set; }
 
-        //Courses related tables
+        //Events related tables
         public DbSet<Event> Events { get; set; }
         public DbSet<Speaker> Speakers { get; set; }
         public DbSet<EventSpeaker> EventSpeakers { get; set; }
+
+        //Courses related tables
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseAssestment> CourseAssestments { get; set; }
+        public DbSet<CourseCategory> CourseCategories { get; set; }
+        public DbSet<CourseDetails> CourseDetails { get; set; }
+        public DbSet<CourseFeatures> CourseFeatures { get; set; }
+        public DbSet<CourseImages> CourseImages { get; set; }
+        public DbSet<CourseLanguage> CourseLanguages { get; set; }
 
         #endregion
 
@@ -56,6 +67,11 @@ namespace EduHome.Data
                 .HasOne(cs => cs.Speaker)
                 .WithMany(cs => cs.EventSpeakers)
                 .HasForeignKey(cs => cs.SpeakerId);
+
+            //Configure Data Type To Property
+            modelBuilder.Entity<CourseFeatures>()
+                    .Property(cf => cf.Fee)
+                    .HasColumnType("decimal(18,4)");
         }
     }
 }
