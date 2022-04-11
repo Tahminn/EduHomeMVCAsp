@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20220410072923_CreateCourseAndRelatedTables.cs" />
     <Compile Remove="Migrations\20220410072923_CreateCourseAndRelatedTables.Designer.cs" />
+    <Compile Remove="Migrations\20220411175102_CreateBlogTable.cs" />
+    <Compile Remove="Migrations\20220411175102_CreateBlogTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

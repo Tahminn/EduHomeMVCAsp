@@ -31,10 +31,12 @@ namespace EduHome.Controllers
 
         public async Task<IActionResult> Index(int after, int take = 3, int page = 1)
         {
-            var count = await _context.Teachers.AsNoTracking().CountAsync() + 1;
-            if (after == 0) after = count;
-            ViewData["TeacherCount"] = count;
-            ViewData["TakeTeacher"] = take;
+            var lastBlog = _context.Teachers.OrderByDescending(t => t.Id).First();
+            int lastId = lastBlog.Id;
+            if (after == 0) after = lastId + 1;
+            var count = await _context.Teachers.Where(b => !b.IsDeleted).AsNoTracking().CountAsync();
+            ViewData["TeacherCount"] = count + 1;
+            ViewData["Take"] = take;
             var paginatedTeacher = await _teacherService.GetTeachers(take, after, count, page);
             return View(paginatedTeacher);
         }

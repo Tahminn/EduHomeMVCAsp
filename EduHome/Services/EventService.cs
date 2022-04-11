@@ -23,27 +23,14 @@ namespace EduHome.Services
         {
             try
             {
-                if (take == -1)
-                {
-                    List<Event> events = await _context.Events
-                    .Where(c => c.Id < after && !c.IsDeleted)
-                    .OrderByDescending(t => t.Id)
-                    .ToListAsync();
-                    int totalPage = Helper.GetPageCount(count, take);
-                    Paginate<Event> paginatedEvent = new Paginate<Event>(events, page, totalPage);
-                    return paginatedEvent;
-                }
-                else
-                {
-                    List<Event> events = await _context.Events
-                    .Where(c => c.Id < after && !c.IsDeleted)
-                    .Take(take)
-                    .OrderByDescending(t => t.Id)
-                    .ToListAsync();
-                    int totalPage = Helper.GetPageCount(count, take);
-                    Paginate<Event> paginatedEvent = new Paginate<Event>(events, page, totalPage);
-                    return paginatedEvent;
-                }
+                List<Event> events = await _context.Events
+                      .Where(c => c.Id < after && !c.IsDeleted)
+                      .OrderByDescending(t => t.Id)
+                      .ToListAsync();
+                if (take > 0) events = events.Take(take).ToList();
+                int totalPage = Helper.GetPageCount(count, take);
+                Paginate<Event> paginatedEvent = new Paginate<Event>(events, page, totalPage);
+                return paginatedEvent;
             }
             catch (Exception)
             {

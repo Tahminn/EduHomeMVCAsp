@@ -28,14 +28,12 @@ namespace EduHome.Controllers
         }
         public async Task<IActionResult> Index(int after, int take = 3, int page = 1)
         {
-            var courseCount = await _context.Courses.AsNoTracking().CountAsync() + 1;
-            if (after == 0) after = courseCount;
-            ViewData["CourseCount"] = courseCount;
+            var count = await _context.Courses.Where(b => !b.IsDeleted).AsNoTracking().CountAsync();
+            if (after == 0) after = count;
+            ViewData["CourseCount"] = count + 1;
             ViewData["Take"] = take;
-            List<Course> courses = await _courseService.GetCourses(take,after);
-            int totalPage = Helper.GetPageCount(courseCount, take);
-            Paginate<Course> paginatedCourse = new Paginate<Course>(courses, page, totalPage);
-            return View(paginatedCourse);
+            var paginatedCourses = await _courseService.GetCourses(take,after, count, page);
+            return View(paginatedCourses);
         }
         public async Task<IActionResult> Details(int id)
         {
@@ -43,22 +41,6 @@ namespace EduHome.Controllers
             Course course = await _courseService.GetCourseById(id);
             if (course == null) return BadRequest();
             return View(course);
-        }
-        //private List<CourseVM> GetMapDatas(List<Course> courses)
-        //{
-        //    List<CourseVM> mapDatas = new List<CourseVM>();
-        //    foreach (var course in courses)
-        //    {
-        //        CourseVM mapData = new CourseVM()
-        //        {
-        //            Id = course.Id,
-        //            Category = course.Category.Name,
-        //            Description = course.Description,
-        //            Images = (ICollection<string>)course.CourseImages
-        //        };
-        //        mapDatas.Add(mapData);
-        //    }
-        //    return mapDatas;
-        //}
+        } 
     }
 }

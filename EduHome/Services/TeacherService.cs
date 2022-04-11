@@ -24,9 +24,7 @@ namespace EduHome.Services
         {
             try
             {
-                if (take == -1)
-                {
-                    List<Teacher> teachers = await _context.Teachers
+                List<Teacher> teachers = await _context.Teachers
                     .Where(t => t.Id < after && t.IsDeleted == false)
                     .Include(t => t.TeacherDetails)
                     .Include(t => t.TeacherContactInfo)
@@ -36,29 +34,11 @@ namespace EduHome.Services
                     .Include(t => t.Position)
                     .OrderByDescending(t => t.Id)
                     .ToListAsync();
-                    var teachersVM = GetMapDatas(teachers);
-                    int totalPage = Helper.GetPageCount(count, take);
-                    Paginate<TeacherListVM> paginatedTeacher = new Paginate<TeacherListVM>(teachersVM, page, totalPage);
-                    return paginatedTeacher;
-                }
-                else
-                {
-                    List<Teacher> teachers = await _context.Teachers
-                    .Where(t => t.Id < after && t.IsDeleted == false)
-                    .Take(take)
-                    .Include(t => t.TeacherDetails)
-                    .Include(t => t.TeacherContactInfo)
-                    .Include(t => t.TeacherSocialMedia)
-                    .Include(t => t.TeacherSkills)
-                    .Include(t => t.Faculty)
-                    .Include(t => t.Position)
-                    .OrderByDescending(t => t.Id)
-                    .ToListAsync();
-                    var teachersVM = GetMapDatas(teachers);
-                    int totalPage = Helper.GetPageCount(count, take);
-                    Paginate<TeacherListVM> paginatedTeacher = new Paginate<TeacherListVM>(teachersVM, page, totalPage);
-                    return paginatedTeacher;
-                }
+                if (take > 0) teachers = teachers.Take(take).ToList();
+                var teachersVM = GetMapDatas(teachers);
+                int totalPage = Helper.GetPageCount(count, take);
+                Paginate<TeacherListVM> paginatedTeacher = new Paginate<TeacherListVM>(teachersVM, page, totalPage);
+                return paginatedTeacher;
             }
             catch (Exception)
             {

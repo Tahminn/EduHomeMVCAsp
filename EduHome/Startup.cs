@@ -1,9 +1,13 @@
 using EduHome.Data;
+using EduHome.Models.APrimary;
 using EduHome.Services;
 using EduHome.Services.Interfaces;
+using LessonMigration.Services;
+using LessonMigration.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +31,25 @@ namespace EduHome
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail = true;
+
+                options.Password.RequiredLength = 12;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireDigit = true;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+            });
             services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>(options =>
             {
@@ -36,6 +59,8 @@ namespace EduHome
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IEventService, EventService>();
+            //services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +81,7 @@ namespace EduHome
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

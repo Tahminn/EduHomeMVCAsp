@@ -1,5 +1,6 @@
 ﻿using EduHome.Models;
 using EduHome.Models.APrimary;
+using EduHome.Models.BlogRel;
 using EduHome.Models.CourseRel;
 using EduHome.Models.EventRel;
 using EduHome.Models.TeacherRel;
@@ -37,6 +38,10 @@ namespace EduHome.Data
         public DbSet<CourseFeatures> CourseFeatures { get; set; }
         public DbSet<CourseImages> CourseImages { get; set; }
         public DbSet<CourseLanguage> CourseLanguages { get; set; }
+
+        //Blogs related tables
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogImage> BlogImages { get; set; }
 
         #endregion
 

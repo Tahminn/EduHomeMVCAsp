@@ -9,6 +9,6 @@ namespace EduHome.Services.Interfaces
     public interface IEventService
     {
         Task<Paginate<Event>> GetEvents(int take, int after, int count, int page);
-        Task<EventVM> GetEventById(int id)
+        Task<EventVM> GetEventById(int id);
     }
 }

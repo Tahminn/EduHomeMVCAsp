@@ -16,6 +16,7 @@ namespace EduHome.Models.CourseRel
         public int CategoryId { get; set; }
         public CourseCategory Category { get; set; }
         public CourseDetails CourseDetails { get; set; }
+        public CourseFeatures CourseFeatures { get; set; }
         public ICollection<CourseImages> CourseImages { get; set; }
     }
 }

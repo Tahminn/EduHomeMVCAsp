@@ -1,6 +1,8 @@
 ﻿using EduHome.Data;
 using EduHome.Models.CourseRel;
 using EduHome.Services.Interfaces;
+using EduHome.Utilities.Helpers;
+using EduHome.Utilities.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,35 +18,24 @@ namespace EduHome.Services
         {
             _context = context;
         }
-        public async Task<List<Course>> GetCourses(int take, int after)
+
+        public async Task<Paginate<Course>> GetCourses(int take, int after, int count, int page)
         {
             try
             {
-                if (take == -1)
-                {
-                    List<Course> courses = await _context.Courses
+                List<Course> courses = await _context.Courses
                     .Where(c => c.Id < after && !c.IsDeleted)
                     .Include(c => c.Assestment)
                     .Include(c => c.Category)
                     .Include(c => c.Language)
                     .Include(c => c.CourseImages)
+                    .Include(c => c.CourseFeatures)
                     .OrderByDescending(t => t.Id)
                     .ToListAsync();
-                    return courses;
-                }
-                else
-                {
-                    List<Course> courses = await _context.Courses
-                    .Where(c => c.Id < after && !c.IsDeleted)
-                    .Take(take)
-                    .Include(c => c.Assestment)
-                    .Include(c => c.Category)
-                    .Include(c => c.Language)
-                    .Include(c => c.CourseImages)
-                    .OrderByDescending(t => t.Id)
-                    .ToListAsync();
-                    return courses;
-                }
+                if (take > 0) courses = courses.Take(take).ToList();
+                int totalPage = Helper.GetPageCount(count, take);
+                Paginate<Course> paginatedCourse = new Paginate<Course>(courses, page, totalPage);
+                return paginatedCourse;
             }
             catch (Exception)
             {
@@ -52,27 +43,6 @@ namespace EduHome.Services
             }
         }
 
-
-        //List<TeacherSkill> teacherSkills = await _context.TeacherSkills
-        //            .Where(ts => ts.TeacherId == id)
-        //            .Include(ts => ts.Teacher)
-        //            .Include(ts => ts.Skill)
-        //            .ToListAsync();
-        //Teacher teacher = await _context.Teachers
-        //    .Where(t => t.Id == id)
-        //    .Include(t => t.TeacherDetails)
-        //    .Include(t => t.TeacherContactInfo)
-        //    .Include(t => t.TeacherSocialMedia)
-        //    .Include(t => t.TeacherSkills)
-        //    .Include(t => t.Faculty)
-        //    .Include(t => t.Position)
-        //    .FirstOrDefaultAsync();
-        //TeacherDetailsVM teacherDetailsVM = new TeacherDetailsVM()
-        //{
-        //    Teacher = teacher,
-        //    TeacherSkills = teacherSkills
-        //};
-        //        return teacherDetailsVM;
         public async Task<Course> GetCourseById(int id)
         {
             try
@@ -84,6 +54,7 @@ namespace EduHome.Services
                     .Include(c => c.Language)
                     .Include(c => c.CourseImages)
                     .Include(c => c.CourseDetails)
+                    .Include(c => c.CourseFeatures)
                     .FirstOrDefaultAsync();
                 return course;
             }

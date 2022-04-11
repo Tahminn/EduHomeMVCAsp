@@ -28,19 +28,23 @@ namespace EduHome.Controllers
         }
         public async Task<IActionResult> Index(int after, int take = 3, int page = 1)
         {
-            var count = await _context.Events.AsNoTracking().CountAsync() + 1;
-            if (after == 0) after = count;
-            ViewData["EventCount"] = count;
+            var lastBlog = _context.Events.OrderByDescending(t => t.Id).First();
+            int lastId = lastBlog.Id;
+            if (after == 0) after = lastId + 1;
+            var count = await _context.Events.Where(b => !b.IsDeleted).AsNoTracking().CountAsync();
+            ViewData["EventCount"] = count +1;
             ViewData["Take"] = take;
             var paginatedEvent = await _eventService.GetEvents(take, after, count, page);
             return View(paginatedEvent);
         }
 
-        public async Task<IActionResult> IndexWithSidebar(int after, int take = 3, int page = 1)
+        public async Task<IActionResult> IndexWithSidebar(int after, int take = 4, int page = 1)
         {
-            var count = await _context.Events.AsNoTracking().CountAsync() + 1;
-            if (after == 0) after = count;
-            ViewData["EventCount"] = count;
+            var lastBlog = _context.Events.OrderByDescending(t => t.Id).First();
+            int lastId = lastBlog.Id;
+            if (after == 0) after = lastId + 1;
+            var count = await _context.Events.Where(b => !b.IsDeleted).AsNoTracking().CountAsync();
+            ViewData["EventCount"] = count + 1;
             ViewData["Take"] = take;
             var paginatedEvent = await _eventService.GetEvents(take, after, count, page);
             return View(paginatedEvent);

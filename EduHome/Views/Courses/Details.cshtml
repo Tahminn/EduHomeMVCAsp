@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Course
+@{
     ViewData["Title"] = "Course Details";
 }
 
@@ -26,38 +27,37 @@
             <div class="col-md-8">
                 <div class="courses-details">
                     <div class="courses-details-img">
-                        <img src="img/course/courses-details.jpg" alt="courses-details">
+                        <img src="~/assets/img/course/@Model.CourseImages.ElementAtOrDefault(0).Image" alt="courses-details">
                     </div>
                     <div class="course-details-content">
-                        <h2>CSE ENGINEERING</h2>
-                        <p>I must explain to you how all this a mistaken idea of denouncing great explorer of the rut the is lder of human happiness pcias unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit asnatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui </p>
+                        <h2>@Model.Category.Name.ToString().ToUpper().</h2>
+                        <p>@Model.CourseDetails.About</p>
                         <div class="course-details-left">
                             <div class="single-course-left">
                                 <h3>about course</h3>
-                                <p>I must explain to you how all this a mistaken idea of ncing great explorer of the rut the is lder of human happinescias unde omnis iste natus error sit volptatem accuntium mque laudantium perspiciatis unde omnis iste natuss</p>
+                                <p>@Model.CourseDetails.About</p>
                             </div>
                             <div class="single-course-left">
                                 <h3>how to apply</h3>
-                                <p>I must explain to you how all this a mistaken idea of ncing great explorer of the rut the is lder of human happinescias unde omnis iste natus error sit volptatem accuntium mque laudantium perspiciatis unde omnis iste natuss</p>
+                                <p>@Model.CourseDetails.Application</p>
                             </div>
                             <div class="single-course-left">
                                 <h3>certification</h3>
-                                <p class="margin">I must explain to you how all this a mistaken idea of ncing great explorer of the rut the is lder of human happinescias unde omnis iste natus error sit volptatem accuntium mque laudantium perspiciatis unde omnis iste natuss</p>
-                                <p>I must explain to you how all this a mistaken idea of ncing great explorer of the rut the is lder of human</p>
+                                <p class="margin">@Model.CourseDetails.Certification</p>
                             </div>
                         </div>
                         <div class="course-details-right">
                             <h3>COURSE FEATURES</h3>
                             <ul>
-                                <li>starts <span>25 june, 2017</span></li>
-                                <li>duration <span>6 Month</span></li>
-                                <li>class duration <span>3 hours</span></li>
-                                <li>skill level <span>all level</span></li>
-                                <li>language <span>english</span></li>
-                                <li>students <span>420</span></li>
-                                <li>assesments <span>self</span></li>
+                                <li>starts <span>@Model.CourseFeatures.Date.ToLongDateString()</span></li>
+                                <li>duration <span>@Model.CourseFeatures.Duration Month</span></li>
+                                <li>class duration <span>@Model.CourseFeatures.ClassDuration hours</span></li>
+                                <li>skill level <span>@Model.CourseFeatures.SkillLevel</span></li>
+                                <li>language <span>@Model.Language.Name</span></li>
+                                <li>students <span>@Model.CourseFeatures.Capacity</span></li>
+                                <li>assesments <span>@Model.Assestment.Name</span></li>
                             </ul>
-                            <h3 class="red">course fee $789</h3>
+                            <h3 class="red">course fee $@Model.CourseFeatures.Fee</h3>
                         </div>
                     </div>
                     <div class="reply-area">
