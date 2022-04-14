@@ -20,7 +20,7 @@ namespace LessonMigration.Services
             var apiKey = emailModel.SecretKey;
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress(emailModel.SenderEmail,emailModel.SenderName);
-            var subject = "Sending with SendGrid is Fun";
+            var subject = "EduHome Notification";
             var to = new EmailAddress(emailTo, userName);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, content, html);
             await client.SendEmailAsync(msg);

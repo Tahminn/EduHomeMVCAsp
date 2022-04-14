@@ -20,10 +20,13 @@ namespace EduHome.Services
         {
             _context = context;
         }
-        public async Task<Paginate<TeacherListVM>> GetTeachers(int take, int after, int count, int page)
+        public async Task<Paginate<TeacherListVM>> GetTeachers(int take, int page)
         {
             try
             {
+                List<int> TeacherIds = await _context.Teachers.OrderByDescending(e => e.Id).Select(e => e.Id).ToListAsync();
+                int after = TeacherIds.ElementAtOrDefault(take * (page - 1));
+                var count = TeacherIds.Count();
                 List<Teacher> teachers = await _context.Teachers
                     .Where(t => t.Id < after && t.IsDeleted == false)
                     .Include(t => t.TeacherDetails)

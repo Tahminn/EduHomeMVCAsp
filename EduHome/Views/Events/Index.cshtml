@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="event-content text-left">
-                            <h4><a asp-action="Details">@eventt.Id @eventt.Name</a></h4>
+                            <h4><a asp-action="Details" asp-route-id="@eventt.Id">@eventt.Id @eventt.Name</a></h4>
                             <ul>
                                 <li><span>time:</span> @eventt.Date.ToString("t")</li>
                                 <li><span>venue</span> @eventt.Venue</li>
@@ -56,17 +56,17 @@
         <div class="row my-3" style="justify-content: center;">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center" style="display: flex;">
-                    <li class="page-item @(Model.HasPrevious ? "": "disabled")">
-                        <a class="page-link" asp-action="Index" asp-route-after="@(ViewBag.EventCount-((Model.CurrentPage-2)*Model.Datas.Count()))" asp-route-take="@ViewBag.Take" asp-route-page="@(Model.CurrentPage-1)">Previous</a>
+                    <li class="page-item">
+                        <a class="page-link @(Model.HasPrevious ? "": "disabled")" asp-action="Index" asp-route-take="@ViewBag.Take" asp-route-page="@(Model.CurrentPage-1)">Previous</a>
                     </li>
                     @for (int i = 1; i <= Model.TotalPage; i++)
                     {
-                        <li class="page-item @(i == Model.CurrentPage ? "disabled" : "")">
-                            <a class="page-link" asp-action="Index" asp-route-after="@(ViewBag.EventCount - (i - 1) * ViewBag.Take )" asp-route-take="@ViewBag.Take" asp-route-page="@i">@i</a>
+                        <li class="page-item">
+                            <a class="page-link @(i == Model.CurrentPage ? "disabled" : "")" asp-action="Index"asp-route-take="@ViewBag.Take" asp-route-page="@i">@i</a>
                         </li>
                     }
-                    <li class="page-item @(Model.HasNext ? "": "disabled")">
-                        <a class="page-link" asp-action="Index" asp-route-after="@(ViewBag.EventCount-((Model.CurrentPage)*Model.Datas.Count()))" asp-route-take="@ViewBag.Take" asp-route-page="@(Model.CurrentPage+1)">Next</a>
+                    <li class="page-item">
+                        <a class="page-link @(Model.HasNext ? "": "disabled")" asp-action="Index" asp-route-take="@ViewBag.Take" asp-route-page="@(Model.CurrentPage+1)">Next</a>
                     </li>
                 </ul>
             </nav>

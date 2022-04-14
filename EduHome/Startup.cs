@@ -59,8 +59,9 @@ namespace EduHome
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IEventService, EventService>();
-            //services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<ISettingService, SettingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

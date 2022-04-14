@@ -1,6 +1,7 @@
 ﻿using EduHome.Models.APrimary;
 using EduHome.Utilities.Enums;
 using EduHome.Utilities.Helpers;
+using EduHome.ViewModels;
 using LessonMigration.Services.Interfaces;
 using LessonMigration.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
@@ -29,6 +30,7 @@ namespace EduHome.Controllers
         }
         public IActionResult Register()
         {
+            
             return View();
         }
 
@@ -187,6 +189,35 @@ namespace EduHome.Controllers
         public IActionResult ForgotPasswordConfirm()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Subscribe(SubscribeVM subscribeVM)
+        {
+            if (subscribeVM.Email == null)
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    var user = await _userManager.GetUserAsync(HttpContext.User); 
+                    string html = $"<p>You has been subscribed to our newsletter</p>";
+                    string content = "Subscription";
+                    await _emailService.SendEmailAsync(user.Email, "Dear" + user.UserName, html, content);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Please sign in or enter email to subscribe.");
+                }
+            }
+            else
+            {
+                var email = subscribeVM.Email;
+                string html = $"<p>You has been subscribed to our newsletter</p>";
+                string content = "Subscription";
+                await _emailService.SendEmailAsync(email, "Dear Subsriber", html, content);
+            }
+            
+            return Ok();
         }
     }
 }

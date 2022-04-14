@@ -45,6 +45,11 @@ body {
 	line-height: normal;
     font-family: 'Open Sans', sans-serif; 
 }
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+    color: grey !important;
+}
 .clear{clear:both}
 .fix {overflow: hidden}
 .block {display: block}
@@ -109,8 +114,8 @@ label {
 .mark, mark {
     background: #4fc1f0 none repeat scroll 0 0;
     color: #ffffff;
-}	font-weight: 600;
-}
+    font-weight: 600;
+}	
 .f-left {float: left}
 .f-right {float: right}
 p {
@@ -130,7 +135,6 @@ ul{
 ::-moz-placeholder { /* Firefox 19+ */
     color: #969696;
     opacity:1;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 :-ms-input-placeholder { /* IE 10+ */
     color: #969696;
@@ -164,7 +168,7 @@ textarea {
     transition: all 0.5s ease-out 0s;
 }
 .banner-area {
-  background: rgba(0, 0, 0, 0) url("../img/banner/banner.jpg") no-repeat scroll center center / cover ;
+  background: rgba(0, 0, 0, 0) url("../img/banner/banner.jpg") no-repeat scroll center center;
   position: relative;
   width: 100%;
   z-index: 1;
@@ -629,7 +633,6 @@ textarea {
 }
 .main-menu ul li:hover > ul {
     opacity: 1;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; 
     visibility: visible;
 }
 .main-menu ul li ul li {
@@ -656,7 +659,6 @@ textarea {
 .main-menu ul li ul li > ul {
     left: 100%;
     opacity: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     position: absolute;
     top: 17%;
     visibility: hidden;
@@ -743,13 +745,11 @@ textarea {
 .menu-style-toggle nav {
     margin-right: -30px;
     opacity: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     visibility: hidden;
 }
 .menu-style-toggle nav.menu-open {
     margin-right: 0;
     opacity: 1;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     visibility: visible;
 }
 .menu-style-toggle nav {
@@ -860,7 +860,6 @@ textarea {
     background: #ffffff none repeat scroll 0 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     opacity: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     position: absolute;
     right: 0;
     top: 79px;
@@ -917,7 +916,6 @@ textarea {
 .open .search {
     display: block;
     opacity: 1;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     visibility: visible;
     z-index: 2;
 }
@@ -1179,7 +1177,7 @@ textarea {
 }
 .notice-left h3, .notice-left-wrapper h3, .notice-right-wrapper h3{
     font-family: 'Open Sans', sans-serif;
-    font-size: 800;
+    font-size: medium;
     color: #2c2b5e;
     font-size: 28px;
     text-transform: uppercase;
@@ -1191,7 +1189,7 @@ textarea {
 .col-md-6 .single-notice-left:last-child, .col-md-6 .single-notice-left:nth-child(3), .col-md-6 .single-notice-left:nth-child(6), .col-md-6 .single-notice-right:last-child{border-bottom: none}
 .single-notice-left h4{
     font-family: 'Open Sans', sans-serif;
-    font-size: 700;
+    font-size: medium;
     font-size: 16px;
     color: #ec1c23;
     margin-bottom: 5px;
@@ -1208,7 +1206,7 @@ textarea {
     color: #2c2b5e;
     text-transform: uppercase;
     margin-bottom: 15.5px;
-    font-size: 700; 
+    font-size: medium; 
 }
 .video-icon a i{
     font-size: 38px;
@@ -1383,7 +1381,7 @@ textarea {
     top: 50%;
     content: "";
     opacity: 0;
-    transform: translate(-50% -50%)
+    transform: translate(-50% -50%);
     margin: auto;
     z-index: 1;
     -webkit-transition: all 0.5s ease 0s;
@@ -2813,7 +2811,6 @@ textarea {
 .login-form-container input::-webkit-input-placeholder {
     color: #666666;
     opacity: 1;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 .login-toggle-btn {
     padding-top: 20px;

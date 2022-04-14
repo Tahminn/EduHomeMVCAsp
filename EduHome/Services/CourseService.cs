@@ -19,10 +19,13 @@ namespace EduHome.Services
             _context = context;
         }
 
-        public async Task<Paginate<Course>> GetCourses(int take, int after, int count, int page)
+        public async Task<Paginate<Course>> GetCourses(int take, int page)
         {
             try
             {
+                List<int> CourseIds = await _context.Courses.OrderByDescending(e => e.Id).Select(e => e.Id).ToListAsync();
+                int after = CourseIds.ElementAtOrDefault(take * (page - 1));
+                int count = CourseIds.Count();
                 List<Course> courses = await _context.Courses
                     .Where(c => c.Id < after && !c.IsDeleted)
                     .Include(c => c.Assestment)

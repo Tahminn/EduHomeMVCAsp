@@ -8,7 +8,7 @@ namespace EduHome.Services.Interfaces
 {
     public interface ITeacherService
     {
-        Task<Paginate<TeacherListVM>> GetTeachers(int take, int after, int count, int page);
+        Task<Paginate<TeacherListVM>> GetTeachers(int take, int page);
         Task<TeacherDetailsVM> GetTeacherDetailsById(int id);
     }
 }

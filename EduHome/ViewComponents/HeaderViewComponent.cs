@@ -1,13 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EduHome.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EduHome.ViewComponents
 {
     public class HeaderViewComponent : ViewComponent
     {
+        private readonly ISettingService _settingService;
+
+        public HeaderViewComponent(ISettingService settingService)
+        {
+            _settingService = settingService;
+        }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return (await Task.FromResult(View()));
+            Dictionary<string, string> settings = _settingService.GetSettings();
+            return (await Task.FromResult(View(settings)));
         }
     }
 }

@@ -43,6 +43,17 @@ namespace EduHome.Data
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogImage> BlogImages { get; set; }
 
+        //Settings table
+        public DbSet<Setting> Settings { get; set; }
+
+        ////DbView Tables
+        //public DbSet<GetBlogsId> GetBlogsIds { get; set; }
+        //public DbSet<GetCoursesId> GetCoursesIds { get; set; }
+        //public DbSet<GetEventsId> GetEventsIds { get; set; }
+        //public DbSet<GetTeachersId> GetTeachersIds { get; set; }
+
+
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -77,6 +88,20 @@ namespace EduHome.Data
             modelBuilder.Entity<CourseFeatures>()
                     .Property(cf => cf.Fee)
                     .HasColumnType("decimal(18,4)");
+
+            ////map viewentity to dbview
+            //modelbuilder.entity<getblogsid>()
+            //    .toview(nameof(getblogsids))
+            //    .haskey(bi => bi.id);
+            //modelbuilder.entity<getcoursesid>()
+            //    .toview(nameof(getcoursesids))
+            //    .haskey(bi => bi.id);
+            //modelbuilder.entity<geteventsid>()
+            //    .toview(nameof(geteventsids))
+            //    .haskey(bi => bi.id);
+            //modelbuilder.entity<getteachersid>()
+            //    .toview(nameof(getteachersids))
+            //    .haskey(bi => bi.id);
         }
     }
 }

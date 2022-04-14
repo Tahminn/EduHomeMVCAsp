@@ -6,7 +6,7 @@ namespace EduHome.Services.Interfaces
 {
     public interface IBlogService
     {
-        Task<Paginate<Blog>> GetBlogs(int take, int after, int page);
+        Task<Paginate<Blog>> GetBlogs(int take, int page);
         Task<Blog> GetBlogById(int id);
     }
 }

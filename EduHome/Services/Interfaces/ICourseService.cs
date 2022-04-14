@@ -7,7 +7,7 @@ namespace EduHome.Services.Interfaces
 {
     public interface ICourseService
     {
-        Task<Paginate<Course>> GetCourses(int take, int after, int count, int page);
+        Task<Paginate<Course>> GetCourses(int take, int page);
         Task<Course> GetCourseById(int id);
     }
 }

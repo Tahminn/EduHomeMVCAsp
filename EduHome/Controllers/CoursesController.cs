@@ -26,13 +26,11 @@ namespace EduHome.Controllers
             _env = env;
             _courseService = courseService;
         }
-        public async Task<IActionResult> Index(int after, int take = 3, int page = 1)
+        public async Task<IActionResult> Index(int take = 3, int page = 1)
         {
-            var count = await _context.Courses.Where(b => !b.IsDeleted).AsNoTracking().CountAsync();
-            if (after == 0) after = count;
-            ViewData["CourseCount"] = count + 1;
             ViewData["Take"] = take;
-            var paginatedCourses = await _courseService.GetCourses(take,after, count, page);
+            var paginatedCourses = await _courseService.GetCourses(take, page);
+            if(paginatedCourses == null) return NotFound();
             return View(paginatedCourses);
         }
         public async Task<IActionResult> Details(int id)

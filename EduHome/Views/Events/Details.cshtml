@@ -42,17 +42,17 @@
                         <div class="speakers-area fix">
                             <h4>speakers</h4>
                             @foreach (var speaker in Model.EventSpeakers)
-                           {
-                               <div class="single-speaker">
-                                <div class="speaker-img">
-                                    <img src="~/assets/img/event/@speaker.Speaker.Image" alt="speaker">
+                            {
+                                <div class="single-speaker">
+                                    <div class="speaker-img">
+                                        <img src="~/assets/img/event/@speaker.Speaker.Image" alt="speaker">
+                                    </div>
+                                    <div class="speaker-name">
+                                        <h5>@speaker.Speaker.Name</h5>
+                                        <p>@speaker.Speaker.Occupation</p>
+                                    </div>
                                 </div>
-                                <div class="speaker-name">
-                                    <h5>@speaker.Speaker.Name</h5>
-                                    <p>@speaker.Speaker.Occupation</p>
-                                </div>
-                            </div>
-                           }
+                            }
                         </div>
                     </div>
                     <div class="reply-area">
@@ -81,7 +81,22 @@
                     </div>
                 </div>
             </div>
-            @await Component.InvokeAsync("Sidebar")
+            <div class="col-md-4">
+                <div class="blog-sidebar right">
+                    <div class="single-blog-widget mb-50">
+                        <h3>search</h3>
+                        <div class="blog-search">
+                            <form id="search" action="#">
+                                <input type="search" placeholder="Search..." name="search" />
+                                <button type="submit">
+                                    <span><i class="fa fa-search"></i></span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    @await Component.InvokeAsync("Sidebar")
+                </div>
+            </div>
         </div>
     </div>
 </div>

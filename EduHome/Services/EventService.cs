@@ -19,12 +19,15 @@ namespace EduHome.Services
         {
             _context = context;
         }
-        public async Task<Paginate<Event>> GetEvents(int take, int after, int count, int page)
+        public async Task<Paginate<Event>> GetEvents(int take, int page)
         {
             try
             {
+                List<int> EventIds = await _context.Events.OrderByDescending(e => e.Id).Select(e => e.Id).ToListAsync();
+                int after = EventIds.ElementAtOrDefault(take * (page - 1));
+                var count = EventIds.Count();
                 List<Event> events = await _context.Events
-                      .Where(c => c.Id < after && !c.IsDeleted)
+                      .Where(c => c.Id <= after && !c.IsDeleted)
                       .OrderByDescending(t => t.Id)
                       .ToListAsync();
                 if (take > 0) events = events.Take(take).ToList();
