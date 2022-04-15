@@ -1,4 +1,4 @@
-﻿using Domain.Data;
+﻿using Domain;
 using Domain.Entities.BlogModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

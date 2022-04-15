@@ -1,4 +1,4 @@
-﻿using Domain.Data;
+﻿using Domain;
 using Domain.Entities.BlogModel;
 using Domain.Entities.CourseModel;
 using EduHome.ViewModels.SidebarVMs;

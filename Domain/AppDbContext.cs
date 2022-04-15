@@ -8,12 +8,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Domain.Data
+namespace Domain
 {
     public class AppDbContext : IdentityDbContext<AppUser>, IAppDbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
+        public AppDbContext(DbContextOptions options) : base(options)
+        {
+        }
+        
         public DatabaseFacade GetDatabase()
         {
             return base.Database;

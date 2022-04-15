@@ -1,4 +1,4 @@
-﻿using Domain.Data;
+﻿using Domain;
 using Service.Interfaces;
 using System.Collections.Generic;
 using System.Linq;

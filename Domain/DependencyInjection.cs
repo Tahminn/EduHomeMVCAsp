@@ -1,5 +1,4 @@
 ﻿using Domain.Common;
-using Domain.Data;
 using Domain.Entities.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

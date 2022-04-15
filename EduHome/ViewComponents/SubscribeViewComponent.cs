@@ -1,4 +1,4 @@
-﻿using Domain.Data;
+﻿using Domain;
 using Domain.Entities.Common;
 using EduHome.ViewModels.SubscribeVMs;
 using Microsoft.AspNetCore.Identity;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Domain.Common;
+using Microsoft.Extensions.DependencyInjection;
 using Service.Account;
 using Service.BaseModels;
 using Service.Interfaces;
@@ -10,7 +11,6 @@ namespace Service
     {
         public static IServiceCollection AddServiceLayer(this IServiceCollection services)
         {
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IEventService, EventService>();

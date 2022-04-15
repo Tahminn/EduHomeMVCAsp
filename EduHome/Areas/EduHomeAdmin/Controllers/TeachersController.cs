@@ -1,4 +1,5 @@
-﻿using Domain.Data;
+﻿using Domain;
+using Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;

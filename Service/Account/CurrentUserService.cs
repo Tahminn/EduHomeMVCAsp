@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Common;
+using Microsoft.AspNetCore.Http;
 using Service.Interfaces;
 using System.Security.Claims;
 
 namespace Service.Account
 {
-    public class CurrentUserService : ICurrentUserService
+    public class CurrentUserService
     {
         public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
