@@ -1,16 +1,7 @@
-﻿using EduHome.Data;
-using EduHome.Models;
-using EduHome.Models.TeacherRel;
-using EduHome.Services.Interfaces;
-using EduHome.Utilities.Pagination;
-using EduHome.Utilities.Helpers;
-using EduHome.ViewModels.TeacherVMs;
+﻿using Domain.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Service.Interfaces;
 using System.Threading.Tasks;
 
 namespace EduHome.Controllers
@@ -33,15 +24,15 @@ namespace EduHome.Controllers
         {
             ViewData["Take"] = take;
             var paginatedTeacher = await _teacherService.GetTeachers(take, page);
-            if(paginatedTeacher == null) return NotFound();
+            if (paginatedTeacher == null) return NotFound();
             return View(paginatedTeacher);
         }
         public async Task<IActionResult> Details(int id)
         {
             if (id == 0) return NotFound();
-            var teacherDetails = await _teacherService.GetTeacherDetailsById(id);
-            if (teacherDetails is null) return NotFound(); 
-            return View(teacherDetails);
+            var teacher = await _teacherService.GetTeacherDetailsById(id);
+            if (teacher is null) return NotFound();
+            return View(teacher);
         }
     }
 }

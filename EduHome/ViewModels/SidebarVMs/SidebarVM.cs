@@ -1,8 +1,7 @@
-﻿using EduHome.Models.BlogRel;
-using EduHome.Models.CourseRel;
-using EduHome.Utilities.Pagination;
+﻿using Domain.Entities.BlogModel;
+using Domain.Entities.CourseModel;
+using Service.Utilities.Pagination;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EduHome.ViewModels.SidebarVMs
 {

@@ -1,5 +1,4 @@
-﻿using EduHome.Models;
-using EduHome.Models.TeacherRel;
+﻿using Domain.Entities.TeacherModel;
 using System.Collections.Generic;
 
 namespace EduHome.ViewModels.TeacherVMs

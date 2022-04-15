@@ -1,12 +1,11 @@
-﻿using EduHome.Models.APrimary;
+﻿using Domain.Entities.Common;
 using EduHome.Utilities.Enums;
-using EduHome.Utilities.Helpers;
-using EduHome.ViewModels;
-using LessonMigration.Services.Interfaces;
-using LessonMigration.ViewModels.Account;
+using EduHome.ViewModels.Account;
+using EduHome.ViewModels.SubscribeVMs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Service.Interfaces;
 using System;
 using System.Threading.Tasks;
 
@@ -30,7 +29,7 @@ namespace EduHome.Controllers
         }
         public IActionResult Register()
         {
-            
+
             return View();
         }
 
@@ -199,7 +198,7 @@ namespace EduHome.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    var user = await _userManager.GetUserAsync(HttpContext.User); 
+                    var user = await _userManager.GetUserAsync(HttpContext.User);
                     string html = $"<p>You has been subscribed to our newsletter</p>";
                     string content = "Subscription";
                     await _emailService.SendEmailAsync(user.Email, "Dear" + user.UserName, html, content);
@@ -216,7 +215,7 @@ namespace EduHome.Controllers
                 string content = "Subscription";
                 await _emailService.SendEmailAsync(email, "Dear Subsriber", html, content);
             }
-            
+
             return Ok();
         }
     }

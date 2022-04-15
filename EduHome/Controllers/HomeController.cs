@@ -1,13 +1,8 @@
-﻿using EduHome.Models;
-using EduHome.Models.APrimary;
+﻿using Domain.Entities.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EduHome.Controllers
 {
@@ -37,6 +32,6 @@ namespace EduHome.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-       
+
     }
 }

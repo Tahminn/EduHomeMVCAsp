@@ -1,12 +1,11 @@
-﻿using EduHome.Data;
-using EduHome.Models.BlogRel;
-using EduHome.Models.CourseRel;
-using EduHome.Services.Interfaces;
-using EduHome.Utilities.Pagination;
+﻿using Domain.Data;
+using Domain.Entities.BlogModel;
+using Domain.Entities.CourseModel;
 using EduHome.ViewModels.SidebarVMs;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Service.Interfaces;
+using Service.Utilities.Pagination;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

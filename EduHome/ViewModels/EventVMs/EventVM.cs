@@ -1,4 +1,4 @@
-﻿using EduHome.Models.EventRel;
+﻿using Domain.Entities.EventModel;
 using System.Collections.Generic;
 
 namespace EduHome.ViewModels.EventVMs

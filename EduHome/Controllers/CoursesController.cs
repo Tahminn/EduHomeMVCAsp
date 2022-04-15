@@ -1,14 +1,8 @@
-﻿using EduHome.Data;
-using EduHome.Models.CourseRel;
-using EduHome.Services.Interfaces;
-using EduHome.Utilities.Helpers;
-using EduHome.Utilities.Pagination;
-using EduHome.ViewModels.CourseVMs;
+﻿using Domain.Data;
+using Domain.Entities.CourseModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+using Service.Interfaces;
 using System.Threading.Tasks;
 
 namespace EduHome.Controllers
@@ -30,15 +24,15 @@ namespace EduHome.Controllers
         {
             ViewData["Take"] = take;
             var paginatedCourses = await _courseService.GetCourses(take, page);
-            if(paginatedCourses == null) return NotFound();
+            if (paginatedCourses == null) return NotFound();
             return View(paginatedCourses);
         }
         public async Task<IActionResult> Details(int id)
         {
-            if(id == 0) return BadRequest();
+            if (id == 0) return BadRequest();
             Course course = await _courseService.GetCourseById(id);
             if (course == null) return BadRequest();
             return View(course);
-        } 
+        }
     }
 }

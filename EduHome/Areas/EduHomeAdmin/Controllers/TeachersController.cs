@@ -1,14 +1,7 @@
-﻿using EduHome.Data;
-using EduHome.Models;
-using EduHome.Services.Interfaces;
-using EduHome.Utilities.Pagination;
-using EduHome.ViewModels.TeacherVMs;
+﻿using Domain.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Service.Interfaces;
 using System.Threading.Tasks;
 
 namespace EduHome.Areas.EduHomeAdmin.Controllers
@@ -32,45 +25,8 @@ namespace EduHome.Areas.EduHomeAdmin.Controllers
         {
             ViewData["TakeTeacher"] = take;
             var paginatedTeacher = await _teacherService.GetTeachers(take, page);
-            if(paginatedTeacher == null) return NotFound();
+            if (paginatedTeacher == null) return NotFound();
             return View(paginatedTeacher);
         }
-
-        //private int GetPageCount(List<Teacher> teachers, int takeTeacher)
-        //{
-        //    var teacherCount = teachers.Count();
-        //    var pageCount = (int)Math.Ceiling((decimal)teacherCount / takeTeacher);
-        //    return pageCount;
-        //}
-
-        //private List<TeacherListVM> GetMapDatas(List<Teacher> teachers)
-        //{
-        //    List<TeacherListVM> mapDatas = new List<TeacherListVM>();
-        //    foreach (var teacher in teachers)
-        //    {
-        //        TeacherListVM mapData = new TeacherListVM()
-        //        {
-        //            Id = teacher.Id,
-        //            Name = teacher.Name,
-        //            Image = teacher.TeacherDetails.Image,
-        //            Position = teacher.Position.Name,
-        //            About = teacher.TeacherDetails.About,
-        //            Degree = teacher.TeacherDetails.Degree,
-        //            Experience = teacher.TeacherDetails.Experience,
-        //            Hobbies = teacher.TeacherDetails.Hobbies,
-        //            Faculty = teacher.Faculty.Name,
-        //            Email = teacher.TeacherContactInfo.Email,
-        //            PhoneNumber = teacher.TeacherContactInfo.PhoneNumber,
-        //            Skype = teacher.TeacherSocialMedia.Skype,
-        //            Facebook = teacher.TeacherSocialMedia.Facebook,
-        //            Pinterest = teacher.TeacherSocialMedia.Pinterest,
-        //            Instagram = teacher.TeacherSocialMedia.Instagram,
-        //            Twitter = teacher.TeacherSocialMedia.Twitter
-        //        };
-
-        //        mapDatas.Add(mapData);
-        //    }
-        //    return mapDatas;
-        //}
     }
 }

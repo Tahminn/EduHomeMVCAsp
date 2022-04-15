@@ -5,15 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20220410072923_CreateCourseAndRelatedTables.cs" />
-    <Compile Remove="Migrations\20220410072923_CreateCourseAndRelatedTables.Designer.cs" />
-    <Compile Remove="Migrations\20220411175102_CreateBlogTable.cs" />
-    <Compile Remove="Migrations\20220411175102_CreateBlogTable.Designer.cs" />
-    <Compile Remove="Migrations\20220413054813_CreateViewTables.cs" />
-    <Compile Remove="Migrations\20220413054813_CreateViewTables.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.23">
@@ -46,6 +38,11 @@
     <None Include="wwwroot\admin\vendor\sass\node_modules\immutable\dist\immutable.es.js" />
     <None Include="wwwroot\admin\vendor\sass\node_modules\immutable\dist\immutable.js.flow" />
     <None Include="wwwroot\admin\vendor\sass\node_modules\immutable\dist\immutable.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
 </Project>

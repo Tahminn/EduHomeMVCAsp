@@ -1,4 +1,4 @@
-﻿@model TeacherDetailsVM
+﻿@model Teacher
 
 @{
     ViewData["Title"] = "Details";
@@ -27,20 +27,20 @@
         <div class="row">
             <div class="col-md-5 col-sm-5 col-xs-12">
                 <div class="teacher-details-img">
-                    <img src="~/assets/img/teacher/@Model.Teacher.TeacherDetails.Image" style="height: 100%;width: 100%;" alt="teacher">
+                    <img src="~/assets/img/teacher/@Model.TeacherDetails.Image" style="height: 100%;width: 100%;" alt="teacher">
                 </div>
             </div>
             <div class="col-md-7 col-sm-7 col-xs-12">
                 <div class="teacher-details-content ml-50">
-                    <h2>@Model.Teacher.Name</h2>
-                    <h5>@Model.Teacher.Position.Name</h5>
+                    <h2>@Model.Name</h2>
+                    <h5>@Model.Position.Name</h5>
                     <h4>about me</h4>
-                    <p>@Model.Teacher.TeacherDetails.About</p>
+                    <p>@Model.TeacherDetails.About</p>
                     <ul>
-                        <li><span>degree: </span>@Model.Teacher.TeacherDetails.Degree</li>
-                        <li><span>experience: </span>@Model.Teacher.TeacherDetails.Experience</li>
-                        <li><span>hobbies: </span>@Model.Teacher.TeacherDetails.Hobbies</li>
-                        <li><span>faculty: </span>@Model.Teacher.Faculty.Name</li>
+                        <li><span>degree: </span>@Model.TeacherDetails.Degree</li>
+                        <li><span>experience: </span>@Model.TeacherDetails.Experience</li>
+                        <li><span>hobbies: </span>@Model.TeacherDetails.Hobbies</li>
+                        <li><span>faculty: </span>@Model.Faculty.Name</li>
                     </ul>
                 </div>
             </div>
@@ -49,14 +49,14 @@
             <div class="col-md-3 col-sm-4">
                 <div class="teacher-contact">
                     <h4>contact information</h4>
-                    <p><span>mail me : </span> @Model.Teacher.TeacherContactInfo.Email</p>
-                    <p><span>make a call : </span> @Model.Teacher.TeacherContactInfo.PhoneNumber</p>
-                    <p><span>skype : </span> @Model.Teacher.TeacherSocialMedia.Skype</p>
+                    <p><span>mail me : </span> @Model.TeacherContactInfo.Email</p>
+                    <p><span>make a call : </span> @Model.TeacherContactInfo.PhoneNumber</p>
+                    <p><span>skype : </span> @Model.TeacherSocialMedia.Skype</p>
                     <ul>
-                        <li><a href="https://www.facebook.com/devitems/@Model.Teacher.TeacherSocialMedia.Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
-                        <li><a href="https://www.pinterest.com/@Model.Teacher.TeacherSocialMedia.Pinterest/"><i class="zmdi zmdi-pinterest"></i></a></li>
-                        <li><a href="https://www.instagram.com/@Model.Teacher.TeacherSocialMedia.Instagram/"><i class="zmdi zmdi-instagram"></i></a></li>
-                        <li><a href="https://twitter.com/@Model.Teacher.TeacherSocialMedia.Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                        <li><a href="https://www.facebook.com/devitems/@Model.TeacherSocialMedia.Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+                        <li><a href="https://www.pinterest.com/@Model.TeacherSocialMedia.Pinterest/"><i class="zmdi zmdi-pinterest"></i></a></li>
+                        <li><a href="https://www.instagram.com/@Model.TeacherSocialMedia.Instagram/"><i class="zmdi zmdi-instagram"></i></a></li>
+                        <li><a href="https://twitter.com/@Model.TeacherSocialMedia.Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
                     </ul>
                 </div>
             </div>

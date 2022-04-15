@@ -1,5 +1,5 @@
-﻿using EduHome.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Service.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

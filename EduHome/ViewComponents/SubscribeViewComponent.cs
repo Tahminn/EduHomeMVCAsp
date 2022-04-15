@@ -1,10 +1,9 @@
-﻿using EduHome.Data;
-using EduHome.Models.APrimary;
-using EduHome.ViewModels;
-using LessonMigration.Services.Interfaces;
+﻿using Domain.Data;
+using Domain.Entities.Common;
+using EduHome.ViewModels.SubscribeVMs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Service.Interfaces;
 using System.Threading.Tasks;
 
 namespace EduHome.ViewComponents
@@ -32,6 +31,6 @@ namespace EduHome.ViewComponents
         {
             return (await Task.FromResult(View(subscribe)));
         }
-        
+
     }
 }

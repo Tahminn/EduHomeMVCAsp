@@ -1,10 +1,8 @@
-﻿using EduHome.Data;
-using EduHome.Models.BlogRel;
-using EduHome.Services.Interfaces;
+﻿using Domain.Data;
+using Domain.Entities.BlogModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Service.Interfaces;
 using System.Threading.Tasks;
 
 namespace EduHome.Controllers
@@ -26,7 +24,7 @@ namespace EduHome.Controllers
         {
             ViewData["Take"] = take;
             var paginatedBlog = await _blogService.GetBlogs(take, page);
-            if(paginatedBlog == null) return NotFound();
+            if (paginatedBlog == null) return NotFound();
             return View(paginatedBlog);
         }
 
