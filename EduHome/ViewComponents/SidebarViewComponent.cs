@@ -30,7 +30,7 @@ namespace EduHome.ViewComponents
                     .Include(cc => cc.Courses)
                     .OrderByDescending(cc => cc.Id)
                     .ToListAsync();
-            Paginate<Blog> blogs = await _blogService.GetBlogs(3, 1);
+            Paginate<Blog> blogs = await _blogService.GetBlogs(null, 3, 1);
             SidebarVM sidebarVM = new SidebarVM()
             {
                 Categories = categories,

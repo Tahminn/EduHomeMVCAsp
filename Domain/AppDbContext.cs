@@ -3,7 +3,9 @@ using Domain.Entities.BlogModel;
 using Domain.Entities.Common;
 using Domain.Entities.CourseModel;
 using Domain.Entities.EventModel;
+using Domain.Entities.HomeModel;
 using Domain.Entities.TeacherModel;
+using Domain.Entities.ViewComponentModel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -15,12 +17,10 @@ namespace Domain
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
-        
         public DatabaseFacade GetDatabase()
         {
             return base.Database;
         }
-
         public DbSet<TEntity> GetDbSet<TEntity>() where TEntity : BaseEntity
         {
             return Set<TEntity>();
@@ -56,16 +56,29 @@ namespace Domain
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogImage> BlogImages { get; set; }
 
-        //Settings table
+        //Settings - Dictionary table
         public DbSet<Setting> Settings { get; set; }
+
+        //Home - Slider table
+        public DbSet<Slider> Sliders { get; set; }
+
+        //ViewComponents tables
+        public DbSet<AboutVC> AboutVC { get; set; }
+        public DbSet<NoticeVC> NoticeVCs { get; set; }
+        public DbSet<NoticeVideoVC> NoticeVideoVC { get; set; }
+        public DbSet<TestimonialVC> TestimonialVC { get; set; }
+
+        //BackgroundImages - Dictionary table
+        public DbSet<BackgroundImages> BackgroundImages { get; set; }
+
+        //Comments table
+        public DbSet<Comment> Comments { get; set; }
 
         ////DbView Tables
         //public DbSet<GetBlogsId> GetBlogsIds { get; set; }
         //public DbSet<GetCoursesId> GetCoursesIds { get; set; }
         //public DbSet<GetEventsId> GetEventsIds { get; set; }
         //public DbSet<GetTeachersId> GetTeachersIds { get; set; }
-
-
 
         #endregion
 
@@ -97,6 +110,11 @@ namespace Domain
                 .HasOne(cs => cs.Speaker)
                 .WithMany(cs => cs.EventSpeakers)
                 .HasForeignKey(cs => cs.SpeakerId);
+
+            //Courses => AppUsers : One to many
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.AppUser)
+                .WithMany(a => a.Courses);
 
             //Configure Data Type To Property
             modelBuilder.Entity<CourseFeatures>()

@@ -1,9 +1,11 @@
 ﻿using Domain;
+using Domain.Entities.Common;
 using Domain.Entities.EventModel;
 using Microsoft.EntityFrameworkCore;
 using Service.Interfaces;
 using Service.Utilities.Helpers;
 using Service.Utilities.Pagination;
+using Service.ViewModels.EventVMs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +20,24 @@ namespace Service.BaseModels
         {
             _context = context;
         }
-        public async Task<Paginate<Event>> GetEvents(int take, int page)
+        public async Task<Paginate<Event>> GetEvents(string searchedEvent, int take, int page, bool upcoming)
         {
             try
             {
-                List<int> EventIds = await _context.Events.OrderByDescending(e => e.Id).Select(e => e.Id).ToListAsync();
+                List<int> EventIds = await _context.Events.Where(c => !c.IsDeleted &&
+                                    (searchedEvent != null) ? c.Name.Trim().ToLower()
+                                    .Contains(searchedEvent.Trim().ToLower()) : true)
+                        .OrderByDescending(e => e.Id).Select(e => e.Id).ToListAsync();
                 int after = EventIds.ElementAtOrDefault(take * (page - 1));
                 var count = EventIds.Count();
                 List<Event> events = await _context.Events
-                      .Where(c => c.Id <= after && !c.IsDeleted)
+                      .Where(c => !c.IsDeleted && ((searchedEvent != null) ?
+                                                    c.Name.Trim().ToLower()
+                                   .Contains(searchedEvent.Trim().ToLower())
+                                                     : true) && c.Id <= after)
                       .OrderByDescending(t => t.Id)
                       .ToListAsync();
+                if (upcoming == true) events = events.Where(e => e.Date.CompareTo(DateTime.Now) > 0).ToList();
                 if (take > 0) events = events.Take(take).ToList();
                 int totalPage = Helper.GetPageCount(count, take);
                 Paginate<Event> paginatedEvent = new Paginate<Event>(events, page, totalPage);
@@ -40,7 +49,7 @@ namespace Service.BaseModels
             }
         }
 
-        public async Task<Event> GetEventById(int id)
+        public async Task<EventDetailsVM> GetEventById(int id, int take, int page)
         {
             try
             {
@@ -48,8 +57,27 @@ namespace Service.BaseModels
                     .Where(t => t.Id == id)
                     .Include(t => t.EventSpeakers)
                     .ThenInclude(t => t.Speaker)
+                    .Include(e => e.Comments)
+                    .ThenInclude(c => c.AppUser)
                     .FirstOrDefaultAsync();
-                return eventt;
+
+                List<int> CommentIds = eventt.Comments.Where(c => !c.IsDeleted)
+                       .OrderByDescending(e => e.Id).Select(e => e.Id).ToList();
+                int after = CommentIds.ElementAtOrDefault(take * (page - 1));
+                int count = CommentIds.Count();
+                List<Comment> Comments = eventt.Comments
+                      .Where(c => c.Id <= after && !c.IsDeleted)
+                      .OrderByDescending(c => c.Id)
+                      .ToList();
+                if (take > 0) Comments = Comments.Take(take).ToList();
+                int totalPage = Helper.GetPageCount(count, take);
+                Paginate<Comment> paginatedComment = new Paginate<Comment>(Comments, page, totalPage);
+                EventDetailsVM eventDetails = new EventDetailsVM()
+                {
+                    Event = eventt,
+                    PaginatedComments = paginatedComment
+                };
+                return eventDetails;
             }
             catch (Exception)
             {

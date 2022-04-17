@@ -27,7 +27,7 @@ namespace Service.BaseModels
                 int after = TeacherIds.ElementAtOrDefault(take * (page - 1));
                 var count = TeacherIds.Count();
                 List<Teacher> teachers = await _context.Teachers
-                    .Where(t => t.Id < after && t.IsDeleted == false)
+                    .Where(t => t.Id <= after && t.IsDeleted == false)
                     .Include(t => t.TeacherDetails)
                     .Include(t => t.TeacherContactInfo)
                     .Include(t => t.TeacherSocialMedia)
@@ -84,7 +84,6 @@ namespace Service.BaseModels
                     .Include(t => t.TeacherDetails)
                     .Include(t => t.TeacherContactInfo)
                     .Include(t => t.TeacherSocialMedia)
-                    .Include(t => t.TeacherSkills)
                     .Include(t => t.Faculty)
                     .Include(t => t.Position)
                     .Include(t => t.TeacherSkills)

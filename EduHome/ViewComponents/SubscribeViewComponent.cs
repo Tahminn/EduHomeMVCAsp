@@ -1,6 +1,6 @@
 ﻿using Domain;
 using Domain.Entities.Common;
-using EduHome.ViewModels.SubscribeVMs;
+using EduHome.ViewModels.ViewComponentViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
@@ -31,6 +31,5 @@ namespace EduHome.ViewComponents
         {
             return (await Task.FromResult(View(subscribe)));
         }
-
     }
 }

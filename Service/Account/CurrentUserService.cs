@@ -1,6 +1,4 @@
-﻿using Domain.Common;
-using Microsoft.AspNetCore.Http;
-using Service.Interfaces;
+﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 namespace Service.Account

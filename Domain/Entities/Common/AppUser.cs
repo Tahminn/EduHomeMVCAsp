@@ -9,6 +9,9 @@ namespace Domain.Entities.Common
         public string Name { get; set; }
         public string Surname { get; set; }
         public bool IsActivated { get; set; }
-        public ICollection<Course> MyProperty { get; set; }
+        //One User With Many Courses
+        public ICollection<Course> Courses { get; set; }
+        //One User With Many Comments
+        public ICollection<Comment> Comments { get; set; }
     }
 }

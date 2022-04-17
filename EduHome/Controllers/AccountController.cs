@@ -1,17 +1,17 @@
 ﻿using Domain.Entities.Common;
-using EduHome.Utilities.Enums;
 using EduHome.ViewModels.Account;
-using EduHome.ViewModels.SubscribeVMs;
+using EduHome.ViewModels.ViewComponentViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using EduHome.Utilities.Helpers;
 using Service.Interfaces;
-using System;
 using System.Threading.Tasks;
+using static EduHome.Utilities.Enums.Enum;
 
 namespace EduHome.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
@@ -29,7 +29,6 @@ namespace EduHome.Controllers
         }
         public IActionResult Register()
         {
-
             return View();
         }
 
@@ -126,7 +125,7 @@ namespace EduHome.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task CreateRole()
         {
-            foreach (var role in Enum.GetValues(typeof(UserRoles)))
+            foreach (var role in System.Enum.GetValues(typeof(UserRoles)))
             {
                 if (!await _roleManager.RoleExistsAsync(role.ToString()))
                 {
@@ -190,8 +189,6 @@ namespace EduHome.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Subscribe(SubscribeVM subscribeVM)
         {
             if (subscribeVM.Email == null)
@@ -203,19 +200,17 @@ namespace EduHome.Controllers
                     string content = "Subscription";
                     await _emailService.SendEmailAsync(user.Email, "Dear" + user.UserName, html, content);
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Please sign in or enter email to subscribe.");
-                }
             }
             else
             {
-                var email = subscribeVM.Email;
-                string html = $"<p>You has been subscribed to our newsletter</p>";
-                string content = "Subscription";
-                await _emailService.SendEmailAsync(email, "Dear Subsriber", html, content);
+                if (Helpers.IsValidEmail(subscribeVM.Email))
+                {
+                    var email = subscribeVM.Email;
+                    string html = $"<p>You has been subscribed to our newsletter</p>";
+                    string content = "Subscription";
+                    await _emailService.SendEmailAsync(email, "Dear Subsriber", html, content);
+                }
             }
-
             return Ok();
         }
     }

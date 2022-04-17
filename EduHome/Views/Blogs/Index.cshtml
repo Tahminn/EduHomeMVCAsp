@@ -4,21 +4,7 @@
 }
 
 <!-- Banner Area Start -->
-<div class="banner-area-wrapper">
-    <div class="banner-area text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="banner-content-wrapper">
-                        <div class="banner-content">
-                            <h2>blog</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@await Component.InvokeAsync("BannerArea", "Blogs")
 <!-- Banner Area End -->
 <!-- Blog Start -->
 <div class="blog-area pt-150 pb-150">
@@ -36,7 +22,7 @@
                         </div>
                         <div class="blog-content">
                             <div class="blog-top">
-                                <p>By @blog.Author  /  @blog.Date.ToLongDateString()  /  <i class="fa fa-comments-o"></i> @blog.CommentCount</p>
+                                <p>By @blog.Author  /  @blog.Date.ToLongDateString()  /  <i class="fa fa-comments-o"></i> @blog.Comments.Count()</p>
                             </div>
                             <div class="blog-bottom">
                                 <h2><a asp-action="Details" asp-route-id="@blog.Id">(@blog.Id) @blog.Title </a></h2>

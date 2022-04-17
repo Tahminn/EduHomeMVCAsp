@@ -20,17 +20,18 @@ namespace EduHome.Controllers
             _env = env;
             _courseService = courseService;
         }
-        public async Task<IActionResult> Index(int take = 3, int page = 1)
+        public async Task<IActionResult> Index(string searchedCourse, int take = 1, int page = 1)
         {
             ViewData["Take"] = take;
-            var paginatedCourses = await _courseService.GetCourses(take, page);
+            ViewData["SearchedCourse"] = searchedCourse;
+            var paginatedCourses = await _courseService.GetCourses(searchedCourse, take, page);
             if (paginatedCourses == null) return NotFound();
             return View(paginatedCourses);
         }
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, int take = 1, int page = 1)
         {
             if (id == 0) return BadRequest();
-            Course course = await _courseService.GetCourseById(id);
+            var course = await _courseService.GetCourseById(id, take, page);
             if (course == null) return BadRequest();
             return View(course);
         }

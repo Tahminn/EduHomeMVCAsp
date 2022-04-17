@@ -16,6 +16,9 @@ namespace Domain.Entities.EventModel
         public string Image { get; set; }
         [Required, NotMapped]
         public IFormFile Photo { get; set; }
+        //Many Events With Many Speakers
         public ICollection<EventSpeaker> EventSpeakers { get; set; }
+        //One Event With Many Comments
+        public ICollection<Comment> Comments { get; set; }
     }
 }

@@ -22,24 +22,27 @@ namespace EduHome.Controllers
         public async Task<IActionResult> Index(int take = 3, int page = 1)
         {
             ViewData["Take"] = take;
-            var paginatedEvent = await _eventService.GetEvents(take, page);
+            var paginatedEvent = await _eventService.GetEvents(null, take, page, false);
             if (paginatedEvent == null) return NotFound();
             return View(paginatedEvent);
         }
 
-        public async Task<IActionResult> IndexWithSidebar(int take = 4, int page = 1)
+        public async Task<IActionResult> IndexWithSidebar(string searchedEvent, int take = 1, int page = 1)
         {
             ViewData["Take"] = take;
-            var paginatedEvent = await _eventService.GetEvents(take, page);
+            ViewData["SearchedEvent"] = searchedEvent;
+            var paginatedEvent = await _eventService.GetEvents(searchedEvent, take, page, false);
             if (paginatedEvent == null) return NotFound();
             return View(paginatedEvent);
         }
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, int take = 1, int page = 1)
         {
+            ViewData["Take"] = take;
+            ViewData["Page"] = page;
             if (id == 0) return NotFound();
-            var eventt = await _eventService.GetEventById(id);
-            if (eventt is null) return NotFound();
-            return View(eventt);
+            var eventDetailVM = await _eventService.GetEventById(id, take, page);
+            if (eventDetailVM is null) return NotFound();
+            return View(eventDetailVM);
         }
     }
 }

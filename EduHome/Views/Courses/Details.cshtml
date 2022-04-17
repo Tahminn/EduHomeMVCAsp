@@ -1,24 +1,10 @@
-﻿@model Course
+﻿@model CourseDetailsVM
 @{
     ViewData["Title"] = "Course Details";
 }
 
 <!-- Banner Area Start -->
-<div class="banner-area-wrapper">
-    <div class="banner-area text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="banner-content-wrapper">
-                        <div class="banner-content">
-                            <h2>courses details</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@await Component.InvokeAsync("BannerArea", "Course Details")
 <!-- Banner Area End -->
 <!-- Blog Start -->
 <div class="courses-details-area blog-area pt-150 pb-140">
@@ -27,42 +13,68 @@
             <div class="col-md-8">
                 <div class="courses-details">
                     <div class="courses-details-img">
-                        <img src="~/assets/img/course/@Model.CourseImages.ElementAtOrDefault(0).Image" alt="courses-details">
+                        <img src="~/assets/img/course/@Model.Course.CourseImages.ElementAtOrDefault(0).Image" alt="courses-details">
                     </div>
                     <div class="course-details-content">
-                        <h2>@Model.Category.Name.ToString().ToUpper().</h2>
-                        <p>@Model.CourseDetails.About</p>
+                        <h2>@Model.Course.CourseCategory.Name.ToString().ToUpper().</h2>
+                        <p>@Model.Course.CourseDetails.About</p>
                         <div class="course-details-left">
                             <div class="single-course-left">
                                 <h3>about course</h3>
-                                <p>@Model.CourseDetails.About</p>
+                                <p>@Model.Course.CourseDetails.About</p>
                             </div>
                             <div class="single-course-left">
                                 <h3>how to apply</h3>
-                                <p>@Model.CourseDetails.Application</p>
+                                <p>@Model.Course.CourseDetails.Application</p>
                             </div>
                             <div class="single-course-left">
                                 <h3>certification</h3>
-                                <p class="margin">@Model.CourseDetails.Certification</p>
+                                <p class="margin">@Model.Course.CourseDetails.Certification</p>
                             </div>
                         </div>
                         <div class="course-details-right">
                             <h3>COURSE FEATURES</h3>
                             <ul>
-                                <li>starts <span>@Model.CourseFeatures.Date.ToLongDateString()</span></li>
-                                <li>duration <span>@Model.CourseFeatures.Duration Month</span></li>
-                                <li>class duration <span>@Model.CourseFeatures.ClassDuration hours</span></li>
-                                <li>skill level <span>@Model.CourseFeatures.SkillLevel</span></li>
-                                <li>language <span>@Model.Language.Name</span></li>
-                                <li>students <span>@Model.CourseFeatures.Capacity</span></li>
-                                <li>assesments <span>@Model.Assestment.Name</span></li>
+                                <li>starts <span>@Model.Course.CourseFeatures.Date.ToLongDateString()</span></li>
+                                <li>duration <span>@Model.Course.CourseFeatures.Duration Month</span></li>
+                                <li>class duration <span>@Model.Course.CourseFeatures.ClassDuration hours</span></li>
+                                <li>skill level <span>@Model.Course.CourseFeatures.SkillLevel</span></li>
+                                <li>language <span>@Model.Course.Language.Name</span></li>
+                                <li>students <span>@Model.Course.CourseFeatures.Capacity</span></li>
+                                <li>assesments <span>@Model.Course.Assestment.Name</span></li>
                             </ul>
-                            <h3 class="red">course fee $@Model.CourseFeatures.Fee</h3>
+                            <h3 class="red">course fee $@Model.Course.CourseFeatures.Fee</h3>
                         </div>
                     </div>
                     <div class="reply-area">
-                        <h3>LEAVE A REPLY</h3>
-                        <p>I must explain to you how all this a mistaken idea of ncing great explorer of the rut<br> the is lder of human happinescias unde omnis iste natus error sit volptatem </p>
+                        <h3>Comments</h3>
+                        @foreach (var comment in Model.PaginatedComments.Datas)
+                        {
+                            if (comment.CourseId == Model.Course.Id && comment != null)
+                            {
+                                <h4>@comment.Name</h4>
+                                <p>@comment.Message</p>
+                            }
+                        }
+                        <div class="row my-3" style="justify-content: center;">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center" style="display: flex;">
+                                    <li class="page-item">
+                                        <a class="page-link @(Model.PaginatedComments.HasPrevious ? "": "disabled")" asp-action="Details" asp-route-take="@ViewBag.Take" asp-route-page="@(Model.PaginatedComments.CurrentPage-1)">Previous</a>
+                                    </li>
+                                    @for (int i = 1; i <= Model.PaginatedComments.TotalPage; i++)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link @(i == Model.PaginatedComments.CurrentPage ? "disabled" : "")" asp-action="Details" asp-route-take="@ViewBag.Take" asp-route-page="@i">@i</a>
+                                        </li>
+                                    }
+                                    <li class="page-item">
+                                        <a class="page-link @(Model.PaginatedComments.HasNext ? "": "disabled")" asp-action="Details" asp-route-take="@ViewBag.Take" asp-route-page="@(Model.PaginatedComments.CurrentPage+1)">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <h3>LEAVE A Comment</h3>
                         <form id="contact-form" action="http://demo.devitems.com/eduhome/mail.php" method="post">
                             <div class="row">
                                 <div class="col-md-12">
@@ -80,7 +92,7 @@
                                     <textarea name="message" id="message" cols="15" rows="10"></textarea>
                                 </div>
                             </div>
-                            <a class="reply-btn" href="#" data-text="send"><span>send message</span></a>
+                            <a class="reply-btn" href="#" data-text="send"><span>leave a comment</span></a>
                             <p class="form-messege"></p>
                         </form>
                     </div>

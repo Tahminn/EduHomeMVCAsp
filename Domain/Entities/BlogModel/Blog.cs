@@ -11,6 +11,9 @@ namespace Domain.Entities.BlogModel
         public string Author { get; set; }
         public DateTime Date { get; set; }
         public int CommentCount { get; set; }
+        //One Course With Many Images
         public ICollection<BlogImage> BlogImages { get; set; }
+        //One Course With Many Comments
+        public List<Comment> Comments { get; set; }
     }
 }

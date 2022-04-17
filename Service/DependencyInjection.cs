@@ -1,9 +1,9 @@
-﻿using Domain.Common;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Service.Account;
 using Service.BaseModels;
 using Service.Interfaces;
 using Service.Setting;
+using Service.ViewComponents;
 
 namespace Service
 {
@@ -15,8 +15,15 @@ namespace Service
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IEmailService, EmailService>();
-            services.AddScoped<ISettingService, SettingService>();
             services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<ISettingService, SettingService>();
+            services.AddScoped<ISliderService, SliderService>();
+            services.AddScoped<IAboutVCService, AboutVCService>();
+            services.AddScoped<INoticeVCService, NoticeVCService>();
+            services.AddScoped<INoticeVideoVCService, NoticeVideoVCService>();
+            services.AddScoped<ITestimonialVCService, TestimonialVCService>();
+            services.AddScoped<IBackgroundImagesService, BackgroundImagesService>();
+            services.AddScoped<ICommentService, CommentService>();
 
             return services;
         }
