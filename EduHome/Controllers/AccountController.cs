@@ -38,6 +38,7 @@ namespace EduHome.Controllers
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
             if (!ModelState.IsValid) return View(registerVM);
+
             AppUser newUser = new AppUser()
             {
                 Name = registerVM.Name,
@@ -45,7 +46,9 @@ namespace EduHome.Controllers
                 UserName = registerVM.UserName,
                 Email = registerVM.Email
             };
+
             IdentityResult result = await _userManager.CreateAsync(newUser, registerVM.Password);
+           
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -54,12 +57,19 @@ namespace EduHome.Controllers
                 }
                 return View(registerVM);
             }
+
             await _userManager.AddToRoleAsync(newUser, UserRoles.Member.ToString());
+
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+
             var link = Url.Action(nameof(VerifyEmail), "Account", new { userId = newUser.Id, token = code }, Request.Scheme, Request.Host.ToString());
-            string html = $"<a href ={link}>Click here to register</a>";
-            string content = "Registration Confirmation";
-            await _emailService.SendEmailAsync(newUser.Email, newUser.UserName, html, content);
+            //string html = $"<a href ={link}>Click here to register</a>";
+            //string content = "Registration Confirmation";
+            //await _emailService.SendEmailAsync(newUser.Email, newUser.UserName, html, content);
+            string html = $"<a href={link}>Click here to reset your password</a><h1>TP225</h1>";
+
+            await _emailService.SendEmailAsync(registerVM.Email, html);
+
             return RedirectToAction(nameof(EmailVerification));
         }
         public IActionResult EmailVerification()
@@ -93,22 +103,28 @@ namespace EduHome.Controllers
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
             if (!ModelState.IsValid) return View(loginVM);
+
             AppUser user = await _userManager.FindByEmailAsync(loginVM.UserNameOrEmail);
+
             if (user is null)
             {
                 user = await _userManager.FindByNameAsync(loginVM.UserNameOrEmail);
             }
+
             if (user is null)
             {
                 ModelState.AddModelError("", "Email or password did not match with any account");
                 return View();
             }
+
             if (!user.IsActivated)
             {
                 ModelState.AddModelError("", "Your account has not been verified yet, please wait for verification or contact the support");
                 return View(loginVM);
             }
+
             Microsoft.AspNetCore.Identity.SignInResult signInResult = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
+            
             if (!signInResult.Succeeded)
             {
                 if (signInResult.IsNotAllowed)
@@ -144,17 +160,20 @@ namespace EduHome.Controllers
         public async Task<IActionResult> ForgotPassword(ForgotPasswordVM forgotPasswordVM)
         {
             if (!ModelState.IsValid) return View(forgotPasswordVM);
+
             var user = await _userManager.FindByEmailAsync(forgotPasswordVM.Email);
+
             if (user is null)
             {
-                ModelState.AddModelError("", "There is no account associated with this email.");
-                return View(forgotPasswordVM);
+                //ModelState.AddModelError("", "There is no account associated with this email.");
+                //return View(forgotPasswordVM);
+                return RedirectToAction(nameof(ForgotPasswordConfirm));
             }
+
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var link = Url.Action(nameof(ResetPassword), "Account", new { email = user.Email, token = code }, Request.Scheme, Request.Host.ToString());
             string html = $"<a href ={link}>Click here to reset your password</a>";
-            string content = "Pasword Reset Email";
-            await _emailService.SendEmailAsync(user.Email, user.UserName, html, content);
+            await _emailService.SendEmailAsync(user.Email, html);
             return RedirectToAction(nameof(ForgotPasswordConfirm));
         }
 
@@ -170,9 +189,13 @@ namespace EduHome.Controllers
         public async Task<IActionResult> ResetPassword(ResetPasswordVM resetPasswordVM)
         {
             if (!ModelState.IsValid) return View(resetPasswordVM);
+
             var user = await _userManager.FindByEmailAsync(resetPasswordVM.Email);
+
             if (user is null) return NotFound();
+
             IdentityResult result = await _userManager.ResetPasswordAsync(user, resetPasswordVM.Token, resetPasswordVM.Password);
+           
             if (!result.Succeeded)
             {
                 foreach (var item in result.Errors)
@@ -197,8 +220,7 @@ namespace EduHome.Controllers
                 {
                     var user = await _userManager.GetUserAsync(HttpContext.User);
                     string html = $"<p>You has been subscribed to our newsletter</p>";
-                    string content = "Subscription";
-                    await _emailService.SendEmailAsync(user.Email, "Dear" + user.UserName, html, content);
+                    await _emailService.SendEmailAsync(user.Email, html);
                 }
             }
             else
@@ -207,8 +229,7 @@ namespace EduHome.Controllers
                 {
                     var email = subscribeVM.Email;
                     string html = $"<p>You has been subscribed to our newsletter</p>";
-                    string content = "Subscription";
-                    await _emailService.SendEmailAsync(email, "Dear Subsriber", html, content);
+                    await _emailService.SendEmailAsync(email, html);
                 }
             }
             return Ok();

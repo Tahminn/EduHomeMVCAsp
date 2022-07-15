@@ -1,7 +1,13 @@
 ﻿using Domain;
+using Domain.Entities.TeacherModel;
+using EduHome.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Service.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EduHome.Controllers
@@ -33,6 +39,50 @@ namespace EduHome.Controllers
             var teacher = await _teacherService.GetTeacherDetailsById(id);
             if (teacher is null) return NotFound();
             return View(teacher);
+        }
+
+        public async Task<IActionResult> Basket(int? id)
+        {
+            if(id==null )
+                return NotFound();
+
+            Teacher teachers = await _context.Teachers.FirstOrDefaultAsync(x => x.Id == id);
+
+            List<BasketVM> basket;
+            if (Request.Cookies["basket"] != null)
+            {
+                basket = JsonConvert.DeserializeObject<List<BasketVM>>(Request.Cookies["basket"]);      
+            }
+            else
+            {
+                basket = new List<BasketVM>();
+            }
+
+            var existTeacher = basket.FirstOrDefault(t => t.Id == teachers.Id);
+            if (existTeacher!=null)
+            {
+                existTeacher.Count++;
+            }
+            else
+            {
+                basket.Add(new BasketVM
+                {
+                    Id = teachers.Id,
+                    Name = teachers.Name,
+                    Count = 1
+                }
+                );
+            }
+
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(basket));
+
+            return RedirectToAction("Test123");
+        }
+
+        public async Task<IActionResult> Test123()
+        {
+
+            return View();
         }
     }
 }

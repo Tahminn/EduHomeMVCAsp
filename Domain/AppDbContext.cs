@@ -17,6 +17,11 @@ namespace Domain
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public AppDbContext()
+        {
+        }
+
         public DatabaseFacade GetDatabase()
         {
             return base.Database;

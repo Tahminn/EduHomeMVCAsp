@@ -3,6 +3,7 @@ using Service.Account;
 using Service.BaseModels;
 using Service.Interfaces;
 using Service.Setting;
+using Service.Statics;
 using Service.ViewComponents;
 
 namespace Service
@@ -24,6 +25,7 @@ namespace Service
             services.AddScoped<ITestimonialVCService, TestimonialVCService>();
             services.AddScoped<IBackgroundImagesService, BackgroundImagesService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IStaticProps, StaticProps>();
 
             return services;
         }

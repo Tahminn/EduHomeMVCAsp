@@ -2,6 +2,7 @@
 using Domain.Entities.TeacherModel;
 using Microsoft.EntityFrameworkCore;
 using Service.Interfaces;
+using Service.Statics;
 using Service.Utilities.Helpers;
 using Service.Utilities.Pagination;
 using Service.ViewModels.TeacherVMs;
@@ -15,15 +16,20 @@ namespace Service.BaseModels
     public class TeacherService : ITeacherService
     {
         private readonly AppDbContext _context;
-        public TeacherService(AppDbContext context)
+        private readonly IStaticProps _staticProps;
+        public TeacherService(AppDbContext context,
+                          IStaticProps staticProps)
         {
             _context = context;
+            _staticProps = staticProps;
         }
+
         public async Task<Paginate<TeacherListVM>> GetTeachers(int take, int page)
         {
             try
             {
-                List<int> TeacherIds = await _context.Teachers.OrderByDescending(e => e.Id).Select(e => e.Id).ToListAsync();
+                //List<int> TeacherIds = await _context.Teachers.OrderByDescending(e => e.Id).Select(e => e.Id).ToListAsync();
+                var TeacherIds = await _staticProps.GetIds();
                 int after = TeacherIds.ElementAtOrDefault(take * (page - 1));
                 var count = TeacherIds.Count();
                 List<Teacher> teachers = await _context.Teachers
